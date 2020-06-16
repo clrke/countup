@@ -1,0 +1,82 @@
+<!DOCTYPE html> 
+<html>
+<head>
+  <title>Count Up</title>
+  <style>
+    body {
+      font-family: 'Baloo';
+      font-size: 48px;
+      color: #00A2FF;
+      width: 320px;
+      margin: 40px;
+    }
+    /*
+    .counters {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    */
+
+    .counters span {
+      display: inline-block;
+      width: 48%;
+    }
+
+    input[name=min1], input[name=min2] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <input name="min1" type="number" placeholder="Min 1" value=0 />
+    <input name="max1" type="number" placeholder="Max 1"/>
+    <input name="min2" type="number" placeholder="Min 2" value=0 />
+    <input name="max2" type="number" placeholder="Max 2"/>
+    <button type="button" class="go">Go!</button>
+  </div>
+  <div class='counters'>
+    <span class='counter1'>0</span>
+    <span class='counter2'>0</span>
+  </div>
+<script>
+  const FPS = 60;
+  const SECONDS = 30;
+  const FRAME_INTERVAL = 1 / FPS;
+  const FRAMES = FPS * SECONDS;
+
+  const min1 = document.querySelector('input[name=min1]');
+  const max1 = document.querySelector('input[name=max1]');
+  const min2 = document.querySelector('input[name=min2]');
+  const max2 = document.querySelector('input[name=max2]');
+  const go = document.querySelector('button');
+
+  const counter1 = document.querySelector('span.counter1');
+  const counter2 = document.querySelector('span.counter2');
+
+  go.addEventListener('click', () => {
+
+    function updateCounters(counters, i) {
+      return () => {
+        counters.forEach(counter => {
+          const [counterDOM, min, max] = [...counter];
+          const counterInterval = (max - min);
+          counterDOM.textContent = parseInt((min + max + counterInterval * -Math.cos(3.14 * i / FRAMES)) / 2);
+        });
+        if (i < FRAMES) {
+          setTimeout(updateCounters(counters, i + 1), FRAME_INTERVAL);
+        } else {
+          counters.forEach(counter => {
+            const [counterDOM, min, max] = [...counter];
+            counterDOM.textContent = max;
+          });
+        }
+      }
+    }
+    updateCounters([[counter1, parseInt(min1.value), parseInt(max1.value)], [counter2, parseInt(min2.value), parseInt(max2.value)]], 0)();
+  });
+  
+</script>
+</body>
+</html>
