@@ -63,7 +63,7 @@
         counters.forEach(counter => {
           const [counterDOM, min, max] = [...counter];
           const counterInterval = (max - min);
-          counterDOM.textContent = parseInt((min + max + counterInterval * -Math.cos(3.14 * i / FRAMES)) / 2);
+          counterDOM.textContent = parseInt((min + max + counterInterval * -Math.cos(3.14159 * i / FRAMES)) / 2);
         });
         if (i < FRAMES) {
           setTimeout(updateCounters(counters, i + 1), FRAME_INTERVAL);
